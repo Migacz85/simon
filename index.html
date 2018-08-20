@@ -17,9 +17,10 @@
   let clicks = [];
   let user_clicks = [];
   let iteration = 0;
-  let score = 3;
+  let score = 0;
   let count_user_clicks = 0;
   let good_ans = 0;
+  let bad_ans = 0;
 
   // variables for show sequence //
   let timer = 2000;
@@ -41,47 +42,70 @@
     document.getElementById(clicks[i]).style = "background-color:white;";
   }
 
-  function check_user_inputs(current_click) {
+  function checkUserInputs(current_click) {
     // user_clicks.push(0)
+    if (isShowingSequence === 0) { //dont allow user to click before showing the pattern is end.
 
-    console.log(count_user_clicks)
+      console.log(count_user_clicks)
 
-    if (clicks[count_user_clicks] == current_click) {
-      console.log("good!")
-      good_ans++
-    } else {
-      console.log("bad! Start again from the begining of a sequence")
-      count_user_clicks = -1
-      good_ans = 0;
-      showSequence();
-    }
+      if (clicks[count_user_clicks] == current_click) {
+        // console.log("good!")
+        good_ans++
 
-    count_user_clicks++
-    if (clicks.length == good_ans) {
-      console.log('correct sequence!')
-      count_user_clicks = 0;
-      good_ans = 0;
-      score++;
-      game();
+      } else {
+        // console.log("bad! Start again from the begining of a sequence")
+
+        document.getElementById("p1").innerHTML = "Bad! Watch again";
+        if (bad_ans === 1) {
+          document.getElementById("p1").innerHTML = "Last chance !";
+        }
+
+        bad_ans++;
+
+        if (bad_ans === 3) {
+          document.getElementById("p1").innerHTML = "Game Over";
+          bad_ans = 0
+          score = 0;
+        }
+        count_user_clicks = -1
+        good_ans = 0;
+        showSequence();
+      }
+
+      count_user_clicks++
+      if (clicks.length == good_ans) {
+        console.log('correct sequence!')
+        score++;
+        document.getElementById("p1").innerHTML = "Correct sequence! Level Up!";
+        count_user_clicks = 0;
+        good_ans = 0;
+        game();
+      }
     }
   }
 
   function showSequence() {
 
+    document.getElementById("score").innerHTML = `lvl: ${score}`;
+    document.getElementById("life").innerHTML = `life: ${2-bad_ans}`;
+
     if (isShowingSequence == 0) { //is this sequence already showing ?
       isShowingSequence = 1;
       console.log(isShowingSequence)
+
       for (let i = 0; clicks.length > i; i++) {
         timer = (i + 1) * 2000;
-        showvalTimer = window.setTimeout(function() {
+        window.setTimeout(function() {
           showval(i)
+          document.getElementById("p1").innerHTML = "Focus on sequence !";
         }, timer + 2000)
-        hidevalTimer = window.setTimeout(function() {
+        window.setTimeout(function() {
           hideval(i)
         }, timer + 500 + 2000)
         if (i == clicks.length - 1) {
           window.setTimeout(function() {
             console.log('sequence finished', timer)
+            document.getElementById("p1").innerHTML = ""; //clear the info for player
             isShowingSequence = 0;
           }, timer + 500 + 2000)
         }
@@ -99,19 +123,19 @@
   /* buttons one two three four */
 
   function one() {
-    check_user_inputs(1);
+    checkUserInputs(1);
   }
 
   function two() {
-    check_user_inputs(2);
+    checkUserInputs(2);
   }
 
   function three() {
-    check_user_inputs(3);
+    checkUserInputs(3);
   }
 
   function four() {
-    check_user_inputs(4);
+    checkUserInputs(4);
   }
 </script>
 
@@ -120,6 +144,12 @@
   <button id='2' onclick="two()">Two</button>
   <button id='3' onclick="three()">Three</button>
   <button id='4' onclick="four()">Four</button>
+
+  <!-- information for player -->
+  <p id="p1"></p>
+
+  <span id="score"></span>
+  <span id="life"></span>
 </body>
 
 
