@@ -17,7 +17,9 @@
   let clicks = [];
   let user_clicks = [];
   let iteration = 0;
-  let score = 10;
+  let score = 3;
+  let count_user_clicks = 0;
+  let good_ans = 0;
 
   // functions
 
@@ -36,47 +38,63 @@
     document.getElementById(clicks[i]).style = "background-color:white;";
   }
 
+  function check_user_inputs(current_click) {
+    user_clicks.push(0)
+    console.log(count_user_clicks)
+
+    if (clicks[count_user_clicks] == current_click) {
+      console.log("good!")
+      good_ans++
+    } else {
+      console.log("bad! Start again from the begining of a sequence")
+      count_user_clicks = -1
+    }
+
+    count_user_clicks++
+    if (clicks.length == good_ans) {
+      console.log('correct sequence!')
+      count_user_clicks = 0;
+      good_ans = 0;
+    }
+  }
+
+
   // main function game
   function game() {
-    rand();
-    console.log(clicks);
+    rand()
+    console.log(clicks)
 
     for (let i = 0; clicks.length > i; i++) {
-      if (i == 0) timer = 1 * 1000;
+      if (i == 0) timer = 1 * 1000
 
       timer = i * 2000;
 
       window.setTimeout(function() {
-        showval(i);
-      }, timer);
+        showval(i)
+      }, timer)
 
       window.setTimeout(function() {
-        hideval(i);
-      }, timer + 500);
+        hideval(i)
+      }, timer + 500)
     }
   }
-  console.log(clicks)
 
   /* buttons one two three four */
+
   function one() {
-    user_clicks.push(0)
-    score++
+    check_user_inputs(1);
   }
 
   function two() {
-    user_clicks.push(1)
-    score++
+    check_user_inputs(2);
   }
 
   function three() {
-    user_clicks.push(2)
-    score++
+    check_user_inputs(3);
   }
 
   function four() {
-    user_clicks.push(3)
-    score++
-    console.log(score)
+    check_user_inputs(4);
   }
 </script>
 
