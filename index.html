@@ -21,10 +21,13 @@
   let count_user_clicks = 0;
   let good_ans = 0;
 
-  // functions
+  // variables for show sequence //
+  let timer = 2000;
+  let time_to_finish = 0;
+  let isShowingSequence = 0;
 
   function rand() {
-    for (i = 0; i < score; i++) {
+    for (i = 0; i < 1; i++) {
       let rand = Math.floor((Math.random() * 4) + 1) //random number 1/4
       clicks.push(rand)
     }
@@ -39,7 +42,8 @@
   }
 
   function check_user_inputs(current_click) {
-    user_clicks.push(0)
+    // user_clicks.push(0)
+
     console.log(count_user_clicks)
 
     if (clicks[count_user_clicks] == current_click) {
@@ -48,6 +52,8 @@
     } else {
       console.log("bad! Start again from the begining of a sequence")
       count_user_clicks = -1
+      good_ans = 0;
+      showSequence();
     }
 
     count_user_clicks++
@@ -55,28 +61,39 @@
       console.log('correct sequence!')
       count_user_clicks = 0;
       good_ans = 0;
+      score++;
+      game();
     }
   }
 
+  function showSequence() {
+
+    if (isShowingSequence == 0) { //is this sequence already showing ?
+      isShowingSequence = 1;
+      console.log(isShowingSequence)
+      for (let i = 0; clicks.length > i; i++) {
+        timer = (i + 1) * 2000;
+        showvalTimer = window.setTimeout(function() {
+          showval(i)
+        }, timer + 2000)
+        hidevalTimer = window.setTimeout(function() {
+          hideval(i)
+        }, timer + 500 + 2000)
+        if (i == clicks.length - 1) {
+          window.setTimeout(function() {
+            console.log('sequence finished', timer)
+            isShowingSequence = 0;
+          }, timer + 500 + 2000)
+        }
+      }
+    }
+  }
 
   // main function game
   function game() {
     rand()
     console.log(clicks)
-
-    for (let i = 0; clicks.length > i; i++) {
-      if (i == 0) timer = 1 * 1000
-
-      timer = i * 2000;
-
-      window.setTimeout(function() {
-        showval(i)
-      }, timer)
-
-      window.setTimeout(function() {
-        hideval(i)
-      }, timer + 500)
-    }
+    showSequence();
   }
 
   /* buttons one two three four */
