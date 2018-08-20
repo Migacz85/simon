@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<style>
+  button {
+    background-color: white;
+  }
+</style>
+
+<script>
+  let clicks = [];
+  let user_clicks = [];
+  let iteration = 0;
+  let score = 10;
+
+  // functions
+
+  function rand() {
+    for (i = 0; i < score; i++) {
+      let rand = Math.floor((Math.random() * 4) + 1) //random number 1/4
+      clicks.push(rand)
+    }
+  }
+
+  function showval(i) {
+    document.getElementById(clicks[i]).style = "background-color:blue;";
+  }
+
+  function hideval(i) {
+    document.getElementById(clicks[i]).style = "background-color:white;";
+  }
+
+  // main function game
+  function game() {
+    rand();
+    console.log(clicks);
+
+    for (let i = 0; clicks.length > i; i++) {
+      if (i == 0) timer = 1 * 1000;
+
+      timer = i * 2000;
+
+      window.setTimeout(function() {
+        showval(i);
+      }, timer);
+
+      window.setTimeout(function() {
+        hideval(i);
+      }, timer + 500);
+    }
+  }
+  console.log(clicks)
+
+  /* buttons one two three four */
+  function one() {
+    user_clicks.push(0)
+    score++
+  }
+
+  function two() {
+    user_clicks.push(1)
+    score++
+  }
+
+  function three() {
+    user_clicks.push(2)
+    score++
+  }
+
+  function four() {
+    user_clicks.push(3)
+    score++
+    console.log(score)
+  }
+</script>
+
+<body onload='game()'>
+  <button id='1' onclick="one()">One</button>
+  <button id='2' onclick="two()">Two</button>
+  <button id='3' onclick="three()">Three</button>
+  <button id='4' onclick="four()">Four</button>
+</body>
+
+
+
+
+
+</html>
