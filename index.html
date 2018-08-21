@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="js/main.js" charset="utf-8"></script>
   <title>Document</title>
 </head>
 <style>
@@ -13,132 +14,6 @@
   }
 </style>
 
-<script>
-  let clicks = [];
-  let user_clicks = [];
-  let iteration = 0;
-  let score = 0;
-  let count_user_clicks = 0;
-  let good_ans = 0;
-  let bad_ans = 0;
-
-  // variables for show sequence //
-  let timer = 2000;
-  let time_to_finish = 0;
-  let isShowingSequence = 0;
-
-  function rand() {
-    for (i = 0; i < 1; i++) {
-      let rand = Math.floor((Math.random() * 4) + 1) //random number 1/4
-      clicks.push(rand)
-    }
-  }
-
-  function showval(i) {
-    document.getElementById(clicks[i]).style = "background-color:blue;";
-  }
-
-  function hideval(i) {
-    document.getElementById(clicks[i]).style = "background-color:white;";
-  }
-
-  function checkUserInputs(current_click) {
-    // user_clicks.push(0)
-    if (isShowingSequence === 0) { //dont allow user to click before showing the pattern is end.
-
-      console.log(count_user_clicks)
-
-      if (clicks[count_user_clicks] == current_click) {
-        // console.log("good!")
-        good_ans++
-
-      } else {
-        // console.log("bad! Start again from the begining of a sequence")
-
-        document.getElementById("p1").innerHTML = "Bad! Watch again";
-        if (bad_ans === 1) {
-          document.getElementById("p1").innerHTML = "Last chance !";
-        }
-
-        bad_ans++;
-
-        if (bad_ans === 3) {
-          document.getElementById("p1").innerHTML = "Game Over";
-          bad_ans = 0
-          score = 0;
-        }
-        count_user_clicks = -1
-        good_ans = 0;
-        showSequence();
-      }
-
-      count_user_clicks++
-      if (clicks.length == good_ans) {
-        console.log('correct sequence!')
-        score++;
-        document.getElementById("p1").innerHTML = "Correct sequence! Level Up!";
-        count_user_clicks = 0;
-        good_ans = 0;
-        game();
-      }
-    }
-  }
-
-  function showSequence() {
-
-    document.getElementById("score").innerHTML = `lvl: ${score}`;
-    document.getElementById("life").innerHTML = `life: ${2-bad_ans}`;
-
-    if (isShowingSequence == 0) { //is this sequence already showing ?
-      isShowingSequence = 1;
-      console.log(isShowingSequence)
-
-      for (let i = 0; clicks.length > i; i++) {
-        timer = (i + 1) * 2000;
-        window.setTimeout(function() {
-          showval(i)
-          document.getElementById("p1").innerHTML = "Focus on sequence !";
-        }, timer + 2000)
-        window.setTimeout(function() {
-          hideval(i)
-        }, timer + 500 + 2000)
-        if (i == clicks.length - 1) {
-          window.setTimeout(function() {
-            console.log('sequence finished', timer)
-            document.getElementById("p1").innerHTML = ""; //clear the info for player
-            isShowingSequence = 0;
-          }, timer + 500 + 2000)
-        }
-      }
-    }
-  }
-
-  // main function game
-  function game() {
-    rand()
-    console.log(clicks)
-    showSequence();
-  }
-
-  /* buttons one two three four */
-
-  function one() {
-    checkUserInputs(1);
-  }
-
-  function two() {
-    checkUserInputs(2);
-  }
-
-  function three() {
-    checkUserInputs(3);
-  }
-
-  function four() {
-    checkUserInputs(4);
-  }
-</script>
-
 <body onload='game()'>
   <button id='1' onclick="one()">One</button>
   <button id='2' onclick="two()">Two</button>
@@ -146,7 +21,7 @@
   <button id='4' onclick="four()">Four</button>
 
   <!-- information for player -->
-  <p id="p1"></p>
+  <p id="console"></p>
 
   <span id="score"></span>
   <span id="life"></span>
