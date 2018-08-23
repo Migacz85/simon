@@ -4,7 +4,7 @@ let score = 0;
 let count_user_clicks = 0;
 let good_ans = 0;
 let bad_ans = 0;
-  afsdf
+
 // variables for show sequence //
 let timer = 2000;
 let time_to_finish = 0;
